@@ -1,0 +1,52 @@
+C4Container
+title Plataforma Educacional
+
+
+Person(Aluno, "Aluno", "Usuário que acessa a plataforma para assistir aulas e interagir.")
+Person(Professor, "Professor", "Instrutor que cria e gerencia cursos e avaliações.")
+Person(Admin, "Administrador", "Responsável pela gestão da plataforma.")
+
+
+System_Boundary(PlataformaEAD, "Plataforma Educacional") {
+    Container(WebApp, "Aplicação Web", "React", "Interface para alunos, professores e administradores.")
+    Container(MobileApp, "Aplicação Mobile", "Flutter", "Aplicativo para acesso via dispositivos móveis.")
+   
+    Container_Boundary(API, "API Gateway") {
+        Container(API, "API Gateway", "Node.js", "Orquestra requisições e autenticação.")
+    }
+   
+    ContainerDb(Database, "Banco de Dados", "PostgreSQL", "Armazena dados de usuários, cursos e interações.")
+   
+    Container(MicroservicoCursos, "Microserviço de Cursos", "Spring Boot", "Gerencia criação e administração de cursos.")
+    Container(MicroservicoUsuarios, "Microserviço de Usuários", "Express.js", "Gerencia autenticação e perfis de usuários.")
+    Container(MicroservicoAvaliacao, "Microserviço de Avaliação", "Python FastAPI", "Criação e correção de avaliações.")
+    Container(MicroservicoNotificacoes, "Microserviço de Notificações", "Node.js", "Gerencia envio de emails e mensagens push.")
+    Container(MicroservicoStreaming, "Microserviço de Streaming", "FFmpeg + WebRTC", "Transmite vídeos ao vivo e gravados.")
+}
+
+
+System_Ext(Email, "Serviço de Email", "Envia notificações e comunicados.")
+System_Ext(VideoStreaming, "Serviço de Streaming", "Fornece infraestrutura para transmissão de vídeos.")
+System_Ext(AuthProvider, "Provedor de Autenticação", "Google, Facebook, etc.")
+
+
+Rel(Aluno, WebApp, "Acessa cursos e assiste aulas")
+Rel(Aluno, MobileApp, "Acessa cursos pelo celular")
+Rel(Professor, WebApp, "Cria cursos e gerencia alunos")
+Rel(Admin, WebApp, "Gerencia usuários e conteúdos")
+
+
+Rel(WebApp, API, "Faz chamadas para funcionalidades do backend")
+Rel(MobileApp, API, "Faz chamadas para funcionalidades do backend")
+
+
+Rel(API, MicroservicoCursos, "Gerencia cursos")
+Rel(API, MicroservicoUsuarios, "Gerencia usuários e autenticação")
+Rel(API, MicroservicoAvaliacao, "Gerencia avaliações")
+Rel(API, MicroservicoNotificacoes, "Envia notificações")
+Rel(API, MicroservicoStreaming, "Transmite vídeos")
+
+
+Rel(MicroservicoNotificacoes, Email, "Envia emails de notificação")
+Rel(MicroservicoStreaming, VideoStreaming, "Utiliza infraestrutura para transmissão de vídeos")
+Rel(MicroservicoUsuarios, AuthProvider, "Autenticação via provedores externos")

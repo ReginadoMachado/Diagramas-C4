@@ -1,0 +1,28 @@
+C4Context
+    title Plataforma Educacional
+    
+    Person(Aluno, "Aluno", "Acessa conteúdos educacionais e realiza avaliações")
+    Person(Professor, "Professor", "Gerencia aulas, cria materiais e avalia alunos")
+    Person(Admin, "Administrador", "Supervisiona a plataforma e gera relatórios")
+    
+    System_Boundary(PlataformaEducacional, "Plataforma Educacional") {
+        System(WebApp, "Web App", "Interface web para acesso e gestão de conteúdos")
+        System(MobileApp, "Mobile App", "Aplicativo móvel para alunos e professores")
+        System(Backend, "Backend Microserviços", "Gerencia lógica de negócios e persistência de dados")
+    }
+    
+    System_Ext(DB, "Banco de Dados", "Armazena informações do sistema")
+    System_Ext(AuthService, "Serviço de Autenticação", "Gerencia login e segurança")
+    System_Ext(EmailService, "Serviço de Email", "Envia notificações e comunicados")
+    
+    Rel(Aluno, WebApp, "Acessa conteúdos educacionais")
+    Rel(Aluno, MobileApp, "Usa o aplicativo para assistir aulas e realizar avaliações")
+    Rel(Professor, WebApp, "Gerencia cursos, alunos e avaliações")
+    Rel(Professor, MobileApp, "Gerencia conteúdos pelo app")
+    Rel(Admin, WebApp, "Monitora e administra a plataforma")
+    
+    Rel(WebApp, Backend, "Envia requisições e recebe dados")
+    Rel(MobileApp, Backend, "Interage com o backend para acesso aos serviços")
+    Rel(Backend, DB, "Armazena e recupera dados de usuários, cursos e avaliações")
+    Rel(Backend, AuthService, "Valida autenticação e segurança de acessos")
+    Rel(Backend, EmailService, "Envia notificações e comunicados")
